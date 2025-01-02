@@ -11,7 +11,7 @@ loudSound = 0
 decreases = 0
 
 
-def micVolume(indata, outdata, frames, time, status): #Changing volume of  process based on mic input
+def micVolume(indata): #Changing volume of  process based on mic input
     global loudSound, decreases
     inNorm = np.linalg.norm(indata) * 10
     if inNorm > 10: #adding a loud sound
@@ -32,15 +32,3 @@ def micVolume(indata, outdata, frames, time, status): #Changing volume of  proce
         main.reset()
     elif loudSound > 4: #gradually decrease volume if loud noises continue
         main.lower()
-    
-
-
-
-
-def mainInput():
-    global ac
-    with main.sd.Stream(callback=micVolume):
-        while True:
-            main.sd.sleep(10000)
-
-mainInput()
