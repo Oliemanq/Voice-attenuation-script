@@ -36,7 +36,7 @@ def micVolume(indata, outdata, frames, time, status): #Changing volume of  proce
         main.lower()
 
 def outputVolume(indata, outdata, frames, time, status): #Changing volume of mic based on process input
-
+    
 
 
 
