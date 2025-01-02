@@ -1,4 +1,7 @@
 import sounddevice as sd #For reading audio input
+from pycaw.pycaw import AudioUtilities #For audio control
+import numpy as np 
+import time
 
 def lower():
     for i in range(20):
@@ -8,7 +11,9 @@ def lower():
 
 def reset():
     for i in range(80):
-            ac.increase_volume(.01)def lower():
+            ac.increase_volume(.01)
+
+def lower():
     for i in range(20):
         if ac.volume-.04 > .2:
             ac.decrease_volume(.04)
@@ -71,3 +76,11 @@ class AudioController:
                 self.volume = min(1.0, self.volume + decibels)
                 interface.SetMasterVolume(self.volume, None)
                 print("Volume raised to", self.volume)  # debug
+
+process = "cider" #Change to Input at some point
+process += ".exe"
+if process == "cider.exe":
+    process = "msedgewebview2.exe"
+
+ac = AudioController(process)
+
