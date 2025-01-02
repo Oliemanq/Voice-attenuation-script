@@ -65,11 +65,10 @@ class AudioController:
                 print("Volume raised to", self.volume)  # debug
 
 loudSound = 0
-talking = False
 decreases = 0
 
 def print_sound(indata, outdata, frames, time, status):
-    global loudSound, talking, decreases
+    global loudSound, decreases
     volume_norm = np.linalg.norm(indata) * 10
     print(volume_norm)
     if volume_norm > 12.5: #adding a loud sound
@@ -80,19 +79,19 @@ def print_sound(indata, outdata, frames, time, status):
             decreases = 0
         elif loudSound > 0:
             loudSound -= 1
-
-
     
     if loudSound == 0: #reset audio if loud noises stop
-        ac.set_volume(1.0)
+        for i in range(decreases*5):
+            ac.increase_volume(.04/5)
+        ac.set_volume(1)
+        
     elif loudSound > 5: #gradually decrease volume if loud noises continue
-        talking = True
-        print("Talking")
         if decreases < 20:
             ac.decrease_volume(.04)
             decreases += 1
 
-process = input("Enter the process name: ")
+process = input("Enter the process name (without .exe): ")
+process += ".exe"
 ac = AudioController(process)
 with sd.Stream(callback=print_sound):
     while True:
