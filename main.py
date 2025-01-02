@@ -92,6 +92,8 @@ def print_sound(indata, outdata, frames, time, status):
 
 process = input("Enter the process name (without .exe): ")
 process += ".exe"
+if process == "cider.exe":
+    process = "msedgewebview2.exe"
 ac = AudioController(process)
 with sd.Stream(callback=print_sound):
     while True:
