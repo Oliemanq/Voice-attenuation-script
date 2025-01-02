@@ -1,10 +1,18 @@
-import sounddevice as sd
-import numpy as np
-from pycaw.pycaw import AudioUtilities
+import sounddevice as sd #For reading audio input
 
-sd.default.samplerate = 48000
+def lower():
+    for i in range(20):
+        if ac.volume-.04 > .2:
+            ac.decrease_volume(.04)
 
-#Example from PyCaw repo for audio control
+
+def reset():
+    for i in range(80):
+            ac.increase_volume(.01)def lower():
+    for i in range(20):
+        if ac.volume-.04 > .2:
+            ac.decrease_volume(.04)
+
 class AudioController:
     def __init__(self, process_name):
         self.process_name = process_name
@@ -63,38 +71,3 @@ class AudioController:
                 self.volume = min(1.0, self.volume + decibels)
                 interface.SetMasterVolume(self.volume, None)
                 print("Volume raised to", self.volume)  # debug
-
-loudSound = 0
-decreases = 0
-
-def print_sound(indata, outdata, frames, time, status):
-    global loudSound, decreases
-    volume_norm = np.linalg.norm(indata) * 10
-    print(volume_norm)
-    if volume_norm > 12.5: #adding a loud sound
-        loudSound += 1
-    if volume_norm < 5: #removing a loud sound
-        if loudSound <= 0: #but not below 0
-            loudSound = 0
-            decreases = 0
-        elif loudSound > 0:
-            loudSound -= 1
-    
-    if loudSound == 0: #reset audio if loud noises stop
-        for i in range(decreases*5):
-            ac.increase_volume(.04/5)
-        ac.set_volume(1)
-        
-    elif loudSound > 5: #gradually decrease volume if loud noises continue
-        if decreases < 20:
-            ac.decrease_volume(.04)
-            decreases += 1
-
-process = input("Enter the process name (without .exe): ")
-process += ".exe"
-if process == "cider.exe":
-    process = "msedgewebview2.exe"
-ac = AudioController(process)
-with sd.Stream(callback=print_sound):
-    while True:
-        sd.sleep(1000)
