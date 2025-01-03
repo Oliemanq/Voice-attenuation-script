@@ -2,22 +2,17 @@ import sounddevice as sd #For reading audio input
 from pycaw.pycaw import AudioUtilities #For audio control
 import numpy as np 
 import time
-import audio
-
-def lower():
-    for i in range(20):
-        if ac.volume-.04 > .2:
-            ac.decrease_volume(.04)
+from input import micVolume
 
 
 def reset():
     for i in range(80):
-            ac.increase_volume(.01)
+            '''ac.increase_volume(.01)'''
 
 def lower():
     for i in range(20):
         if ac.volume-.04 > .2:
-            ac.decrease_volume(.04)
+            '''ac.decrease_volume(.04)'''
 
 class AudioController:
     def __init__(self, process_name):
@@ -85,6 +80,7 @@ if process == "cider.exe":
 
 ac = AudioController(process)
 
-with sd.Stream(callback=audio.micVolume):
+with sd.Stream(callback=micVolume):
     while True:
         sd.sleep(10000)
+
